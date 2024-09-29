@@ -1,0 +1,61 @@
+SELECT course_id, year FROM takes;
+
+
+SELECT DISTINCT course_id, year FROM takes;
+
+
+SELECT course_id FROM takes WHERE year = 2010;
+
+
+SELECT course_id FROM takes WHERE year = 2010 AND semester = 'Fall';
+
+
+SELECT course_id FROM takes WHERE (year = 2010 AND semester = 'Fall') OR (year = 2011 AND semester = 'Spring');
+
+
+SELECT * FROM course WHERE dept_name = 'Cybernetics'; 
+
+
+SELECT s.name, t.course_id, t.grade
+FROM student s
+JOIN takes t ON s.ID = t.ID;
+
+
+SELECT c.title AS course_title, p.title AS prerequisite_title
+FROM course c
+JOIN prereq pr ON c.course_id = pr.course_id
+JOIN course p ON pr.prereq_id = p.course_id;
+
+
+SELECT s.name AS student_name, i.name AS advisor_name
+FROM student s
+JOIN advisor a ON s.ID = a.s_ID
+JOIN instructor i ON a.i_ID = i.ID;
+
+
+SELECT COUNT(*) FROM section WHERE year = 2010 AND semester = 'Spring';
+
+
+SELECT SUM(c.credits)
+FROM teaches t
+JOIN section s ON t.course_id = s.course_id AND t.sec_id = s.sec_id AND t.semester = s.semester AND t.year = s.year
+JOIN course c ON s.course_id = c.course_id
+WHERE t.year = 2010 AND t.semester = 'Spring';
+
+
+SELECT ID, COUNT(*) AS teach_count
+FROM teaches
+WHERE year = 2010
+GROUP BY ID;
+
+
+SELECT i.name AS instructor_name, COUNT(a.s_ID) AS student_count
+FROM instructor i
+LEFT JOIN advisor a ON i.ID = a.i_ID
+GROUP BY i.ID;
+
+
+SELECT s.name AS student_name, i.name AS advisor_name
+FROM student s
+LEFT JOIN advisor a ON s.ID = a.s_ID
+LEFT JOIN instructor i ON a.i_ID = i.ID;
